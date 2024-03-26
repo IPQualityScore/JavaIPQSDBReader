@@ -125,6 +125,12 @@ public class FileReader {
             return matcher.matches();
         }
 
+        if(isIPv6() == false) {
+            if (!isValidRange("0.0.0.0", "255.0.0.0", ip)) {
+                throw new IOException("Attempted to look up ip in 0.0.0.0/8 range. Aborting.")
+            }
+        }
+
         return false;
     }
 
