@@ -60,72 +60,72 @@ try {
 				<tbody>
 					<tr>
 						<td>record.isProxy()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Is this IP address suspected to be a proxy? (SOCKS, Elite, Anonymous, VPN, Tor, etc.)</td>
 					</tr>
                     <tr>
 						<td>record.isVPN()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Is this IP suspected of being a VPN connection? This can include data center ranges which can become active VPNs at any time. The "proxy" status will always be true when this value is true.</td>
 					</tr>
                     <tr>
 						<td>record.isTOR()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Is this IP suspected of being a TOR connection? This can include previously active TOR nodes and exits which can become active TOR exits at any time. The "proxy" status will always be true when this value is true.</td>
 					</tr>
                     <tr>
 						<td>record.isCrawler()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Is this IP associated with being a confirmed crawler from a mainstream search engine such as Googlebot, Bingbot, Yandex, etc. based on hostname or IP address verification.</td>
 					</tr>
                     <tr>
 						<td>record.isBot()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Indicates if bots or non-human traffic has recently used this IP address to engage in automated fraudulent behavior. Provides stronger confidence that the IP address is suspicious.</td>
 					</tr>
                     <tr>
 						<td>record.hasRecentAbuse()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if there has been any recently verified abuse across our network for this IP address. Abuse could be a confirmed chargeback, compromised device, fake app install, or similar malicious behavior within the past few days.</td>
 					</tr>
                     <tr>
 						<td>record.isBlacklisted()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if the IP has been blacklisted by any 3rd party agency for spam, abuse or fraud.</td>
 					</tr>
                     <tr>
 						<td>record.isPrivate()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if the IP is a private, nonrouteable IP address.</td>
 					</tr>
                     <tr>
 						<td>record.isMobile()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if the IP is likely owned by a mobile carrier.</td>
 					</tr>
                     <tr>
 						<td>record.hasOpenPorts()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if the IP has recently had open (listening) ports.</td>
 					</tr>
                     <tr>
 						<td>record.isHostingProvider()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>This value will indicate if the IP is likely owned by a hosting provider or is leased to a hosting company.</td>
 					</tr>
                     <tr>
 						<td>record.isActiveVPN()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Identifies active VPN connections used by popular VPN services and private VPN servers.</td>
 					</tr>
                     <tr>
 						<td>record.isActiveTOR()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Identifies active TOR exits on the TOR network.</td>
 					</tr>
                     <tr>
 						<td>record.isPublicAccessPoint()</td>
-						<td>bool</td>
+						<td>boolean</td>
 						<td>Indicates if this IP is likely to be a public access point such as a coffee shop, college or library.</td>
 					</tr>
                     <tr>
@@ -226,7 +226,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getCountry()</td>
-						<td>string</td>
+						<td>String</td>
 						<td>
                             <p>
                                 Two character country code of IP address or "N/A" if unknown.
@@ -235,7 +235,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getCity()</td>
-						<td>string</td>
+						<td>String</td>
 						<td>
                             <p>
                                 City of IP address if available or "N/A" if unknown.
@@ -244,7 +244,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getISP()</td>
-						<td>string</td>
+						<td>String</td>
 						<td>
                             <p>
                                 ISP if one is known. Otherwise "N/A".
@@ -253,7 +253,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getOrganization()</td>
-						<td>string</td>
+						<td>String</td>
 						<td>
                             <p>
                                 Organization if one is known. Can be parent company or sub company of the listed ISP. Otherwise "N/A".
@@ -271,7 +271,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getTimezone()</td>
-						<td>string</td>
+						<td>String</td>
 						<td>
                             <p>
                                 Timezone of IP address if available or "N/A" if unknown.
@@ -279,8 +279,17 @@ try {
                         </td>
                     </tr>
                     <tr>
+						<td>record.getZipcode()</td>
+						<td>String</td>
+						<td>
+                            <p>
+                                Suspected Zipcode of the IP address if available or empty string if unknown.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
 						<td>record.getLatitude()</td>
-						<td>float32</td>
+						<td>float</td>
 						<td>
                             <p>
                                 Latitude of IP address if available or 0.00 if unknown.
@@ -289,7 +298,7 @@ try {
                     </tr>
                     <tr>
 						<td>record.getLongitude()</td>
-						<td>float32</td>
+						<td>float</td>
 						<td>
                             <p>
                                 Longitude of IP address if available or 0.00 if unknown.

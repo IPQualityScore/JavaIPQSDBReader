@@ -93,6 +93,12 @@ public class IPQSRecord {
 				case "Timezone":
 					setTimezone(c.getRawValue());
 					break;
+				case "Zipcode":
+					setZipcode(c.getRawValue());
+					break;
+				case "Hostname":
+					setHostname(c.getRawValue());
+					break;
 			}
 
 			getColumns().add(c);
@@ -364,6 +370,22 @@ public class IPQSRecord {
 		Timezone = timezone;
 	}
 
+	public String getZipcode() {
+		return Zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		Zipcode = zipcode;
+	}
+
+	public String getHostname() {
+		return Hostname;
+	}
+
+	public void setHostname(String hostname) {
+		Hostname = hostname;
+	}
+
 	public Integer getASN() {
 		return ASN;
 	}
@@ -424,6 +446,8 @@ public class IPQSRecord {
 	private String ISP;
 	private String Organization;
 	private String Timezone;
+	private String Zipcode;
+	private String Hostname;
 
 	private Integer ASN;
 
