@@ -117,4 +117,14 @@ public class Utility {
 		buffer.position(0);
 		return buffer.getInt() & 0xFFFFFFFFL;
 	}
+	public static long toUnsignedInt64(ByteBuffer buffer) {
+		return toUnsignedInt64(buffer.array()); // made this way to avoid modifying the original
+	}
+	public static long toUnsignedInt64(byte[] bytes) {
+		ByteBuffer buffer = ByteBuffer.allocate(8).put(bytes);
+		buffer.order(ByteOrder.LITTLE_ENDIAN);
+		buffer.position(0);
+		return buffer.getInt() & 0xFFFFFFFFL;
+	}
+
 }

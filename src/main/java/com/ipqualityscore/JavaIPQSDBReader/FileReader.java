@@ -22,7 +22,7 @@ public class FileReader {
 
 		int position = 0;
 		long[] previous = new long[128];
-		long file_position = getTreeStart() + 5;
+		long file_position = getTreeStart() + (this.getVersion() == 0x01 ? 5 : 9);
 		StringBuilder literal = new StringBuilder(convertIPToBinaryLiteral(ip));
 
 		FileChannel channel = openChannel();
@@ -35,12 +35,12 @@ public class FileReader {
 			channel.position(
 				literal.charAt(position) == '0'
 					? file_position
-					: file_position + 4
+					: file_position + (this.getVersion() == 0x01 ? 4 : 8)
 			);
 
-			ByteBuffer read = ByteBuffer.allocate(4);
+			ByteBuffer read = ByteBuffer.allocate(this.getVersion() == 0x01 ? 4 : 8);
 			channel.read(read);
-			file_position = Utility.toUnsignedInt(read);
+			file_position = this.getVersion() == 0x01 ? Utility.toUnsignedInt(read) : Utility.toUnsignedInt64(read) ;
 
 			if(!BlacklistFile) {
 				if(file_position == 0){
@@ -150,10 +150,18 @@ public class FileReader {
 	private boolean Valid;
 	private boolean BinaryData;
 	private boolean BlacklistFile;
+	private byte Version;
 	private ArrayList<Column> Columns = new ArrayList<Column>();
 
 	public FileChannel openChannel() throws IOException {
 		return FileChannel.open(path, StandardOpenOption.READ);
+	}
+
+	public void setVersion(byte version) {
+		Version = version;
+	}
+	public long getVersion() {
+		return Version;
 	}
 
 	public void setPath(Path path) {

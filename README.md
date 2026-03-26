@@ -1,7 +1,7 @@
 <div class="documentation_overview">
 	<h1 class="doc-title">IPQualityScore IP Address Reputation &amp; Proxy Detection Java DB Reader</h1>
 	<div class="spacing-10"></div>
-	<h2 class="text-bold headerHR" style="font-size: 1.5em;">Flat File Version 1.0 (Reader 1.0.8)</h2>
+	<h2 class="text-bold headerHR" style="font-size: 1.5em;">Flat File Version 2.0</h2>
 	<div class="spacing-10"></div>
 	<p>
         The IPQS Java reader brings a new standard of performance and compression to our IP reputation and geo location services. Setting up and using the reader can be achieved in minutes.

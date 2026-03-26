@@ -69,8 +69,8 @@ public class IPQSRecord {
 					break;
 				default:
 					if(c.getType().Has(Bitmask.StringData)){
-						c.setRawValue(getRangedStringValue(file, Arrays.copyOfRange(raw, current_byte, current_byte + 4)));
-						current_byte += 4;
+						c.setRawValue(getRangedStringValue(file, Arrays.copyOfRange(raw, current_byte, current_byte + (file.getVersion() == 0x01 ? 4 : 8))));
+						current_byte += (file.getVersion() == 0x01 ? 4 : 8);
 					}
 			}
 
@@ -109,7 +109,7 @@ public class IPQSRecord {
 
 	private String getRangedStringValue(FileReader file, byte[] pointer) throws IOException {
 		FileChannel channel = file.openChannel();
-		channel.position(Utility.toUnsignedInt(pointer));
+		channel.position((file.getVersion() == 0x01 ? Utility.toUnsignedInt(pointer) : Utility.toUnsignedInt64(pointer)));
 
 		ByteBuffer totalBytes = ByteBuffer.allocate(1);
 		channel.read(totalBytes);

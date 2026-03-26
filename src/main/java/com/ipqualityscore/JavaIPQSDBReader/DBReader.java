@@ -40,13 +40,15 @@ public class DBReader {
 
 		ByteBuffer versionByte = ByteBuffer.allocate(1);
 		channel.read(versionByte);
-
-		if(!Bitmask.create(versionByte).Has(Bitmask.ReaderVersion)) { // Byte 1
+		versionByte.flip();
+		byte version = versionByte.get();
+		if (version != 0x01 && version != 0x02){
 			throw new IOException("Invalid file version, invalid header bytes, EID 1.");
 		}
+		reader.setVersion(version);
 
-		ByteBuffer hbd = ByteBuffer.allocate(3);
-		channel.read(hbd); // Byte 2 - 4
+		ByteBuffer hbd = ByteBuffer.allocate((reader.getVersion() == 0x01 ? 3 : 4));
+		channel.read(hbd); // Byte 2 - 5 / v2: 2 - 6
 
 		long headerBytes = Utility.uVarInt(hbd);
 		if(headerBytes == 0) {
@@ -54,26 +56,26 @@ public class DBReader {
 		}
 
 		ByteBuffer rbd = ByteBuffer.allocate(2);
-		channel.read(rbd); // Byte 5 - 6
+		channel.read(rbd); // Byte 5 - 7 / v2: 6 - 8
 
 		reader.setRecordBytes(Utility.uVarInt(rbd));
 		if(reader.getRecordBytes() == 0) {
 			throw new IOException("Invalid file format, invalid record bytes, EID 3.");
 		}
 
-		ByteBuffer var = ByteBuffer.allocate(4);
-		channel.read(var); // Byte 7 - 10
+		ByteBuffer var = ByteBuffer.allocate((reader.getVersion() == 0x01 ? 4 : 8));
+		channel.read(var); // Byte 7 - 10 / v2: 8 - 16
 
-		reader.setTotalBytes(Utility.toUnsignedInt(var));
+		reader.setTotalBytes((reader.getVersion() == 0x01 ? Utility.toUnsignedInt(var) : Utility.toUnsignedInt64(var)));
 		if(reader.getTotalBytes() == 0) {
 			throw new IOException("Invalid file format, EID 4.");
 		}
 
 		reader.setTreeStart(headerBytes);
-		ByteBuffer columns = ByteBuffer.allocate((int) (headerBytes - 11));
+		ByteBuffer columns = ByteBuffer.allocate((int) (headerBytes - (reader.getVersion() == 0x01 ? 11 : 16) ));
 		channel.read(columns);
 
-		int totalColumns = (int) (((headerBytes) - 11) / 24);
+		int totalColumns = (int) (((headerBytes) - (reader.getVersion() == 0x01 ? 11 : 16)) / 24);
 		for(int i = 0; i < totalColumns; i++) {
 			byte[] descriptionRaw = Arrays.copyOfRange(columns.array(), (i * 24), ((i + 1) * 24) - 2);
 
@@ -93,10 +95,10 @@ public class DBReader {
 			throw new IOException("File does not appear to be valid, bad binary tree. EID: 6");
 		}
 
-		ByteBuffer treeLength = ByteBuffer.allocate(4);
+		ByteBuffer treeLength = ByteBuffer.allocate((reader.getVersion() == 0x01 ? 4 : 8));
 		channel.read(treeLength);
 
-		reader.setTreeEnd(reader.getTreeStart() + Utility.toUnsignedInt(treeLength));
+		reader.setTreeEnd(reader.getTreeStart() + (reader.getVersion() == 0x01 ? Utility.toUnsignedInt(treeLength) : Utility.toUnsignedInt64(treeLength)));
 		if(reader.getTreeEnd() == 0) {
 			throw new IOException("File does not appear to be valid, tree size is too small. EID: 7");
 		}
