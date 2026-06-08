@@ -36,13 +36,13 @@ public class Bitmask {
 	public static final int ActiveVPN = 8;
 	public static final int ActiveTOR = 16;
 	public static final int PublicAccessPoint = 32;
-	public static final int ReservedOne = 64;
-	public static final int ReservedTwo = 128;
+	public static final int FrequentAbuser = 64;
+	public static final int TrustedApplication = 128;
 
 	// Subset 5
-	public static final int ReservedThree = 1;
-	public static final int ReservedFour = 2;
-	public static final int ReservedFive = 4;
+	public static final int SharedIP = 1;
+	public static final int SecurityScanner = 2;
+	public static final int DynamicIP = 4;
 	public static final int ConnectionTypeOne = 8;
 	public static final int ConnectionTypeTwo = 16;
 	public static final int ConnectionTypeThree = 32;

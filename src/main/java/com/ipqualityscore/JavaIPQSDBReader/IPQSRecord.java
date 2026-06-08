@@ -16,6 +16,7 @@ public class IPQSRecord {
 		if(file.hasBinaryData()){
 			processFirstByte(raw[0]);
 			processSecondByte(raw[1]);
+			processThirdByte(raw[2]);
 
 			setConnectionType(ConnectionType.create(raw[2]));
 			setAbuseVelocity(AbuseVelocity.create(raw[2]));
@@ -180,6 +181,30 @@ public class IPQSRecord {
 		if(mask.Has(Bitmask.PublicAccessPoint)){
 			setPublicAccessPoint(true);
 		}
+
+		if(mask.Has(Bitmask.FrequentAbuser)) {
+			setFrequentAbuser(true);
+		}
+
+		if(mask.Has(Bitmask.TrustedApplication)) {
+			setTrustedApplication(true);
+		}
+	}
+
+	private void processThirdByte(byte b) {
+		Bitmask mask = Bitmask.create(b);
+
+		if(mask.Has(Bitmask.SharedIP)) {
+			setSharedIP(true);
+		}
+
+		if(mask.Has(Bitmask.SecurityScanner)) {
+			setSecurityScanner(true);
+		}
+
+		if(mask.Has(Bitmask.DynamicIP)) {
+			setDynamicIP(true);
+		}
 	}
 
 	public String getCountryName() {
@@ -304,6 +329,46 @@ public class IPQSRecord {
 
 	public void setPublicAccessPoint(boolean publicAccessPoint) {
 		PublicAccessPoint = publicAccessPoint;
+	}
+
+	public boolean isFrequentAbuser() {
+		return FrequentAbuser;
+	}
+
+	public void setFrequentAbuser(boolean frequentAbuser) {
+		FrequentAbuser = frequentAbuser;
+	}
+
+	public boolean isTrustedApplication() {
+		return TrustedApplication;
+	}
+
+	public void setTrustedApplication(boolean trustedApplication) {
+		TrustedApplication = trustedApplication;
+	}
+
+	public boolean isSharedIP() {
+		return SharedIP;
+	}
+
+	public void setSharedIP(boolean sharedIP) {
+		SharedIP = sharedIP;
+	}
+
+	public boolean isSecurityScanner() {
+		return SecurityScanner;
+	}
+
+	public void setSecurityScanner(boolean securityScanner) {
+		SecurityScanner = securityScanner;
+	}
+
+	public boolean isDynamicIP() {
+		return DynamicIP;
+	}
+
+	public void setDynamicIP(boolean dynamicIP) {
+		DynamicIP = dynamicIP;
 	}
 
 	public ConnectionType getConnectionType() {
@@ -436,6 +501,11 @@ public class IPQSRecord {
 	private boolean ActiveVPN = false;
 	private boolean ActiveTOR = false;
 	private boolean PublicAccessPoint = false;
+	private boolean FrequentAbuser = false;
+	private boolean TrustedApplication = false;
+	private boolean SharedIP = false;
+	private boolean SecurityScanner = false;
+	private boolean DynamicIP = false;
 
 	private ConnectionType ConnectionType;
 	private AbuseVelocity AbuseVelocity;
